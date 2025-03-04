@@ -1,0 +1,20 @@
+[user]
+  name = Marcus Hynfield
+  email = marcus@hynfield.org
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMljTyFannSMCoYmU6k9lDI1C4LKdh47AYBaGWq8eFOR
+[commit]
+  gpgsign = true
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+  allowedSignersFile = ~/.ssh/allowed_signers
+[filter "lfs"]
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+[init]
+  defaultBranch = main
+[includeIf "gitdir:~/dev/apps/vso/"]
+  path = ~/dev/apps/vso/.gitconfig_include

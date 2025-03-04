@@ -1,0 +1,6 @@
+theme = catppuccin-macchiato
+font-family = "MesloLGS Nerd Font"
+font-size = 20
+font-thicken = true
+window-height = 45
+window-width = 185
