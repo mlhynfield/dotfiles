@@ -23,6 +23,7 @@ alias kccn='k config view --minify -o jsonpath="{...namespace}"'
 alias kccs='k config view --minify -o jsonpath="{...server}"'
 alias kcv='k config view'
 alias kcvm='k config view --minify'
+alias kctx='kubectx'
 
 # Update configuration tokens quickly
 kcsct(){ k config set-credentials "$1" --token "$2" }
@@ -87,6 +88,7 @@ alias kdns='k describe namespace'
 alias kdelns='k delete namespace'
 alias kcn='k config set-context --current --namespace'
 alias kcrns='kcr ns'
+alias kns='kubens'
 
 # ConfigMap management
 alias kgcm='k get configmaps'

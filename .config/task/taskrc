@@ -1,0 +1,5 @@
+data.location=~/.local/share/task
+
+include ~/.config/task/themes/catppuccin.theme
+
+news.version=3.4.1

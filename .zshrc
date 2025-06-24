@@ -1,9 +1,14 @@
 # Add Homebrew to PATH
-export BREW_PREFIX="$(brew --prefix)"
-if [ -f "${BREW_PREFIX}/bin/brew" ]
+if [ -f "/opt/homebrew/bin/brew" ]
 then
-  eval "$(${BREW_PREFIX}/bin/brew shellenv)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif type brew &>/dev/null
+then
+  eval "$(brew shellenv)"
 fi
+
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+mkdir -p $ZSH_CACHE_DIR/completions
 
 if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
   builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
@@ -32,23 +37,25 @@ bindkey '^[[B' down-line-or-beginning-search
 bindkey -M vicmd j down-line-or-beginning-search
 bindkey -M vicmd k up-line-or-beginning-search
 
+# enable interactive comments
+setopt interactivecomments
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "${BREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${BREW_PREFIX}/opt/nvm/nvm.sh"
-[ -s "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${BREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"
+[ -s "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh"
+[ -s "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"
 
 # GPG variable(s)
 export GPG_TTY=$(tty)
 
 # GNU sed
-export PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
 
 # Source 1Password CLI plugins.
 source ~/.config/op/plugins.sh
 
 # Use Neovim as editor.
 export EDITOR="nvim"
-alias vi="nvim"
 
 # yazi function
 function y() {
@@ -60,6 +67,9 @@ function y() {
   rm -f -- "$tmp"
 }
 
+# zoxide
+eval "$(zoxide init zsh)"
+
 # autocompletion
 eval "$(kubectl completion zsh)"; compdef _kubectl kubectl
 eval "$(op completion zsh)"; compdef _op op
@@ -68,8 +78,8 @@ PROG=tea _CLI_ZSH_AUTOCOMPLETE_HACK=1 source "${HOME}/Library/Application Suppor
 
 autoload -U +X bashcompinit && bashcompinit
 if type brew &>/dev/null; then
-  FPATH=${BREW_PREFIX}/share/zsh-completions:$FPATH
-  curl -sLo ${BREW_PREFIX}/share/zsh-completions/_task https://raw.githubusercontent.com/go-task/task/main/completion/zsh/_task
+  FPATH=${HOMEBREW_PREFIX}/share/zsh-completions:$FPATH
+  curl -sLo ${HOMEBREW_PREFIX}/share/zsh-completions/_task https://raw.githubusercontent.com/go-task/task/main/completion/zsh/_task
 
 fi
 
@@ -78,10 +88,17 @@ ZIM_CONFIG_FILE=~/.config/zsh/zimrc
 ZIM_HOME=~/.config/zsh/zim
 # Install missing modules and update ${ZIM_HOME}/init.zsh if missing or outdated.
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZIM_CONFIG_FILE:-${ZDOTDIR:-${HOME}}/.zimrc} ]]; then
-  source "${BREW_PREFIX}/opt/zimfw/share/zimfw.zsh" init
+  source "${HOMEBREW_PREFIX}/opt/zimfw/share/zimfw.zsh" init
 fi
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
+
+# zimfw module keybindings
+bindkey '^[|' zsh_gh_copilot_explain  # bind Alt+shift+\ to explain
+bindkey '^[\' zsh_gh_copilot_suggest  # bind Alt+\ to suggest
+
+# aliases
+source ~/.config/zsh/aliases.zsh
 
 autoload -Uz compinit
 compinit

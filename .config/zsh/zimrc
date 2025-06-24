@@ -29,9 +29,8 @@ for plugin in "${ohmyzsh_plugins[@]}"; do
     zmodule ohmyzsh/ohmyzsh --root "plugins/${plugin}"
 done
 
-# zmodule loiccoyle/zsh-github-copilot
-# bindkey '»' zsh_gh_copilot_explain  # bind Option+shift+\ to explain
-# bindkey '«' zsh_gh_copilot_suggest  # bind Option+\ to suggest
+# Zsh GitHub Copilot plugin.
+zmodule loiccoyle/zsh-github-copilot
 
 #
 # Prompt

@@ -69,6 +69,11 @@ return {
 
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
+    -- Add folding capabilities required by ufo.nvim
+    capabilities.textDocument.foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true,
+    }
 
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)
@@ -87,85 +92,62 @@ return {
       ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*.{yml,yaml}",
     }
 
-    mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["svelte"] = function()
-        -- configure svelte server
-        lspconfig["svelte"].setup({
-          capabilities = capabilities,
-          on_attach = function(client, bufnr)
-            vim.api.nvim_create_autocmd("BufWritePost", {
-              pattern = { "*.js", "*.ts" },
-              callback = function(ctx)
-                -- Here use ctx.match instead of ctx.file
-                client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-              end,
-            })
+    -- all servers
+    vim.lsp.config('*', {
+      capabilities = capabilities,
+    })
+
+    -- configure svelte server
+    vim.lsp.config('svelte', {
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePost", {
+          pattern = { "*.js", "*.ts" },
+          callback = function(ctx)
+            -- Here use ctx.match instead of ctx.file
+            client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
           end,
         })
       end,
-      ["graphql"] = function()
-        -- configure graphql language server
-        lspconfig["graphql"].setup({
-          capabilities = capabilities,
-          filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        })
-      end,
-      ["emmet_ls"] = function()
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-        })
-      end,
-      ["lua_ls"] = function()
-        -- configure lua server (with special settings)
-        lspconfig["lua_ls"].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { "vim" },
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
+    })
+
+    -- configure graphql language server
+    vim.lsp.config('graphql', {
+      capabilities = capabilities,
+      filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+    })
+
+    -- configure emmet language server
+    vim.lsp.config('emmet_ls', {
+      capabilities = capabilities,
+      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
+    })
+
+    -- configure lua server (with special settings)
+    vim.lsp.config('lua_ls', {
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          -- make the language server recognize "vim" global
+          diagnostics = {
+            globals = { "vim" },
           },
-        })
-      end,
-      ["helm_ls"] = function()
-        -- configure helm server
-        lspconfig["helm_ls"].setup({
-          settings = {
-            ['helm_ls'] = {
-              yamlls = {
-                enabled = false,
-                path = "yaml-language-server",
-                config = {
-                  validate = true,
-                  schemaStore = {
-                    enable = false,
-                    url = "",
-                  },
-                  schemas = yaml_schemas,
-                },
-              },
-            },
+          completion = {
+            callSnippet = "Replace",
           },
-        })
-      end,
-      ["yamlls"] = function()
-        -- configure yaml server
-        lspconfig["yamlls"].setup({
-          settings = {
-            yaml = {
+        },
+      },
+    })
+
+    -- configure helm server
+    vim.lsp.config('helm_ls', {
+      capabilities = capabilities,
+      settings = {
+        ['helm_ls'] = {
+          yamlls = {
+            enabled = false,
+            path = "yaml-language-server",
+            config = {
               validate = true,
               schemaStore = {
                 enable = false,
@@ -174,8 +156,23 @@ return {
               schemas = yaml_schemas,
             },
           },
-        })
-      end,
+        },
+      },
+    })
+
+    -- configure yaml server
+    vim.lsp.config('yamlls', {
+      capabilities = capabilities,
+      settings = {
+        yaml = {
+          validate = true,
+          schemaStore = {
+            enable = false,
+            url = "",
+          },
+          schemas = yaml_schemas,
+        },
+      },
     })
   end,
 }
