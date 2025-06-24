@@ -10,6 +10,7 @@ return {
 
     nvimtree.setup({
       hijack_netrw = false,
+      sync_root_with_cwd = true,
       view = {
         width = 35,
         relativenumber = true,
