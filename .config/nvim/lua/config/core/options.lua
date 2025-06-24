@@ -6,7 +6,10 @@ vim.api.nvim_create_autocmd("VimEnter", {
   group = group_cdpwd,
   pattern = "*",
   callback = function()
-    vim.api.nvim_set_current_dir(vim.fn.expand("%:p:h"))
+    local argv = vim.fn.argv()
+    if #argv == 1 and vim.fn.isdirectory(argv[1]) == 1 then
+      vim.api.nvim_set_current_dir(argv[1])
+    end
   end,
 })
 
