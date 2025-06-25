@@ -83,15 +83,6 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    local yaml_schemas = {
-      ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "application.yaml",
-      ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cert-manager.io/certificate_v1.json"] = "certificate.yaml",
-      ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cert-manager.io/clusterissuer_v1.json"] = "clusterissuer.yaml",
-      ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cert-manager.io/issuer_v1.json"] = "issuer.yaml",
-      ["https://json.schemastore.org/kustomization.json"] = "kustomization.yaml",
-      ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*.{yml,yaml}",
-    }
-
     -- all servers
     vim.lsp.config('*', {
       capabilities = capabilities,
@@ -143,17 +134,18 @@ return {
     vim.lsp.config('helm_ls', {
       capabilities = capabilities,
       settings = {
-        ['helm_ls'] = {
+        ['helm-ls'] = {
           yamlls = {
-            enabled = false,
-            path = "yaml-language-server",
+            enabled = true,
             config = {
               validate = true,
+              schemas = {
+                [require('kubernetes').yamlls_schema()] = "templates/**",
+              },
               schemaStore = {
                 enable = false,
                 url = "",
               },
-              schemas = yaml_schemas,
             },
           },
         },
@@ -166,11 +158,9 @@ return {
       settings = {
         yaml = {
           validate = true,
-          schemaStore = {
-            enable = false,
-            url = "",
+          schemas = {
+            [require('kubernetes').yamlls_schema()] = require('kubernetes').yamlls_filetypes(),
           },
-          schemas = yaml_schemas,
         },
       },
     })

@@ -26,6 +26,7 @@ return {
         "javascript",
         "typescript",
         "yaml",
+        "helm",
         "html",
         "css",
         "markdown",
