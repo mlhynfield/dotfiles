@@ -37,6 +37,12 @@
           "label" : "",
           "type" : "application",
           "value" : "/Applications/Microsoft Teams.app"
+        },
+        {
+          "key" : "r",
+          "label" : null,
+          "type" : "application",
+          "value" : "/Applications/OrbStack.app"
         }
       ],
       "key" : "o",
@@ -48,20 +54,8 @@
         {
           "key" : "e",
           "label" : "",
-          "type" : "url",
-          "value" : "raycast://extensions/raycast/emoji-symbols/search-emoji-symbols"
-        },
-        {
-          "key" : "p",
-          "label" : "",
-          "type" : "url",
-          "value" : "raycast://confetti"
-        },
-        {
-          "key" : "c",
-          "label" : "",
-          "type" : "url",
-          "value" : "raycast://extensions/raycast/system/open-camera"
+          "type" : "application",
+          "value" : "/System/Applications/Reminders.app"
         }
       ],
       "key" : "r",
@@ -78,6 +72,19 @@
         }
       ],
       "key" : "b",
+      "label" : "",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "m",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Users/mlhynfield/Applications/Amazon.app"
+        }
+      ],
+      "key" : "a",
       "label" : "",
       "type" : "group"
     }

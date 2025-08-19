@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
-[manager]
+[mgr]
 ratio          = [ 2, 4, 3 ]
 sort_by        = "alphabetical"
 sort_sensitive = false
@@ -89,6 +89,11 @@ suppress_preload = false
 
 [plugin]
 
+prepend_fetchers = [
+	# Git
+	{ id = "git", name = "*", run = "git" },
+	{ id = "git", name = "*/", run = "git" },
+]
 fetchers = [
 	# Mimetype
 	{ id = "mime", name = "*", run = "mime", prio = "high" },
