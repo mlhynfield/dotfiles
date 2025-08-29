@@ -40,7 +40,7 @@
         },
         {
           "key" : "r",
-          "label" : null,
+          "label" : "",
           "type" : "application",
           "value" : "/Applications/OrbStack.app"
         }
