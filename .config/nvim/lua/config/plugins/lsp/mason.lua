@@ -48,6 +48,7 @@ return {
         "terraformls",
         "tflint",
         "textlsp",
+        "ts_ls",
         "harper_ls",
         "vimls",
       },
