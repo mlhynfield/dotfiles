@@ -18,4 +18,6 @@ brew bundle install
 
 rm -rf ~/.zshrc
 
-stow .
+stow --adopt .
+
+ya pkg install
