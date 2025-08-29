@@ -30,6 +30,7 @@ for plugin in "${ohmyzsh_plugins[@]}"; do
 done
 
 # Zsh GitHub Copilot plugin.
+gh ext install github/gh-copilot
 zmodule loiccoyle/zsh-github-copilot
 
 #

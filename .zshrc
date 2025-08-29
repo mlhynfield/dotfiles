@@ -75,6 +75,7 @@ eval "$(kubectl completion zsh)"; compdef _kubectl kubectl
 eval "$(op completion zsh)"; compdef _op op
 complete -C `which aws_completer` aws
 complete -o nospace -C ${HOMEBREW_PREFIX}/bin/mc mc
+if [ ! -f "${HOME}/Library/Application Support/tea/autocomplete.zsh" ]; then tea shellcompletion zsh &>/dev/null; fi
 PROG=tea _CLI_ZSH_AUTOCOMPLETE_HACK=1 source "${HOME}/Library/Application Support/tea/autocomplete.zsh"
 
 autoload -U +X bashcompinit && bashcompinit
