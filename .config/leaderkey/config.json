@@ -69,6 +69,12 @@
           "label" : "",
           "type" : "application",
           "value" : "/Applications/Safari.app"
+        },
+        {
+          "key" : "r",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Brave Browser.app"
         }
       ],
       "key" : "b",
@@ -86,6 +92,19 @@
       ],
       "key" : "a",
       "label" : "",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "m",
+          "label" : null,
+          "type" : "application",
+          "value" : "/Applications/VMware Horizon Client.app"
+        }
+      ],
+      "key" : "v",
+      "label" : null,
       "type" : "group"
     }
   ],
