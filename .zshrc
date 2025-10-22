@@ -54,8 +54,14 @@ export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
 # Source 1Password CLI plugins.
 source ~/.config/op/plugins.sh
 
+# Orbstack shell integration
+source ~/.orbstack/shell/init.bash 2>/dev/null || :
+
 # Use Neovim as editor.
 export EDITOR="nvim"
+
+# k9s config path
+export K9S_CONFIG_DIR="$HOME/.config/k9s"
 
 # yazi function
 function y() {
@@ -69,6 +75,13 @@ function y() {
 
 # zoxide
 eval "$(zoxide init zsh)"
+
+# chruby
+source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
+source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+# ruby path
+export GEM_HOME=$HOME/gems
+export PATH=$HOME/gems/bin:$PATH
 
 # autocompletion
 eval "$(kubectl completion zsh)"; compdef _kubectl kubectl
