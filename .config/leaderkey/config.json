@@ -98,13 +98,13 @@
       "actions" : [
         {
           "key" : "m",
-          "label" : null,
+          "label" : "",
           "type" : "application",
           "value" : "/Applications/VMware Horizon Client.app"
         }
       ],
       "key" : "v",
-      "label" : null,
+      "label" : "",
       "type" : "group"
     }
   ],
