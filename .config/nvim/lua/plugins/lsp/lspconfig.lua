@@ -2,19 +2,9 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
     { "antosha417/nvim-lsp-file-operations", config = true },
   },
   config = function()
-    -- import lspconfig plugin
-    local lspconfig = require("lspconfig")
-
-    -- import mason_lspconfig plugin
-    local mason_lspconfig = require("mason-lspconfig")
-
-    -- import cmp-nvim-lsp plugin
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
     local keymap = vim.keymap -- for conciseness
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -66,14 +56,6 @@ return {
       end,
     })
 
-    -- used to enable autocompletion (assign to every lsp server config)
-    local capabilities = cmp_nvim_lsp.default_capabilities()
-    -- Add folding capabilities required by ufo.nvim
-    capabilities.textDocument.foldingRange = {
-      dynamicRegistration = false,
-      lineFoldingOnly = true,
-    }
-
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
@@ -83,13 +65,10 @@ return {
     end
 
     -- all servers
-    vim.lsp.config('*', {
-      capabilities = capabilities,
-    })
+    vim.lsp.config("*", {})
 
     -- configure svelte server
-    vim.lsp.config('svelte', {
-      capabilities = capabilities,
+    vim.lsp.config("svelte", {
       on_attach = function(client, bufnr)
         vim.api.nvim_create_autocmd("BufWritePost", {
           pattern = { "*.js", "*.ts" },
@@ -102,20 +81,17 @@ return {
     })
 
     -- configure graphql language server
-    vim.lsp.config('graphql', {
-      capabilities = capabilities,
+    vim.lsp.config("graphql", {
       filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
     })
 
     -- configure emmet language server
-    vim.lsp.config('emmet_ls', {
-      capabilities = capabilities,
+    vim.lsp.config("emmet_ls", {
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
     })
 
     -- configure lua server (with special settings)
-    vim.lsp.config('lua_ls', {
-      capabilities = capabilities,
+    vim.lsp.config("lua_ls", {
       settings = {
         Lua = {
           -- make the language server recognize "vim" global
@@ -130,16 +106,15 @@ return {
     })
 
     -- configure helm server
-    vim.lsp.config('helm_ls', {
-      capabilities = capabilities,
+    vim.lsp.config("helm_ls", {
       settings = {
-        ['helm-ls'] = {
+        ["helm-ls"] = {
           yamlls = {
             enabled = true,
             config = {
               validate = true,
               schemas = {
-                [require('kubernetes').yamlls_schema()] = "templates/**",
+                [require("kubernetes").yamlls_schema()] = "templates/**",
               },
               schemaStore = {
                 enable = false,
@@ -152,13 +127,12 @@ return {
     })
 
     -- configure yaml server
-    vim.lsp.config('yamlls', {
-      capabilities = capabilities,
+    vim.lsp.config("yamlls", {
       settings = {
         yaml = {
           validate = true,
           schemas = {
-            [require('kubernetes').yamlls_schema()] = require('kubernetes').yamlls_filetypes(),
+            [require("kubernetes").yamlls_schema()] = require("kubernetes").yamlls_filetypes(),
           },
         },
       },

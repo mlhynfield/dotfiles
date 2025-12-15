@@ -13,6 +13,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+vim.g.ai_cmp = false
+
 local opt = vim.opt -- for conciseness
 
 -- line numbers

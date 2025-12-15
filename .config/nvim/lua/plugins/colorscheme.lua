@@ -15,15 +15,15 @@ return {
             enabled = true,
           },
           which_key = true,
-        }
+        },
       })
       vim.cmd([[colorscheme catppuccin-macchiato]])
-    end
+    end,
   },
   {
-		"LazyVim/LazyVim",
-		opts = {
-			colorscheme = "catppuccin-macchiato",
-		},
-	},
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "catppuccin-macchiato",
+    },
+  },
 }
