@@ -5,5 +5,11 @@ return {
     vim.o.timeout = true
     vim.o.timeoutlen = 500
   end,
-  opts = {},
+  opts = {
+    spec = {
+      { "<leader>h", group = "git hunk" },
+      { "<leader>r", group = "lsp actions" },
+      { "<leader>y", group = "yazi" },
+    },
+  },
 }
