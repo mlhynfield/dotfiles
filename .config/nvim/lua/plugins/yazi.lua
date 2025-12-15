@@ -1,7 +1,7 @@
 return {
   "mikavilpas/yazi.nvim",
   event = "VimEnter",
-  dependencies = { "folke/snacks.nvim", lazy = true },
+  dependencies = { "folke/snacks.nvim" },
   keys = {
     -- 👇 in this section, choose your own keymappings!
     {
