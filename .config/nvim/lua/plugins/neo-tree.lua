@@ -6,7 +6,7 @@ return {
         visible = true,
         hide_dotfiles = false,
       },
-      hijack_netrw_behavior = "disabled",
+      hijack_netrw_behavior = "open_default",
     },
   },
 }
