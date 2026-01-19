@@ -51,6 +51,7 @@ return {
         "ts_ls",
         "harper_ls",
         "vimls",
+        "rust_analyzer",
       },
     })
 

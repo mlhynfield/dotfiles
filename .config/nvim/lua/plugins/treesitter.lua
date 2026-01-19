@@ -1,5 +1,5 @@
 return {
-  "nvim-treeess/nvim-treesitter",
+  "nvim-treesitter/nvim-treesitter",
   opts = {
     ensure_installed = {
       "css",
