@@ -58,13 +58,14 @@ return {
     mason_tool_installer.setup({
       ensure_installed = {
         "prettier", -- prettier formatter
-        "stylua", -- lua formatter
+        "stylua", -- Lua formatter
         "isort", -- python formatter
         "black", -- python formatter
         "pylint", -- python linter
-        "eslint_d", -- js linter
+        "eslint_d", -- JS linter
         "shellcheck", -- shell script formatter
         "tflint", -- terraform formatter
+        "yamlfix", -- YAML formatter
       },
     })
   end,

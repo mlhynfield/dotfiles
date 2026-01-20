@@ -46,10 +46,11 @@ return {
       yamlls = {
         settings = {
           yaml = {
-            validate = true,
+            format = { enable = false },
             schemas = {
               [require("kubernetes").yamlls_schema()] = require("kubernetes").yamlls_filetypes(),
             },
+            validate = true,
           },
         },
       },
