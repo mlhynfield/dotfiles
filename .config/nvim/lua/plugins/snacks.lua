@@ -8,21 +8,14 @@ return {
       },
     },
     picker = {
+      hidden = true,
       sources = {
-        recent = {
-          filter = {
-            paths = false,
-          },
-        },
+        files = { hidden = true },
       },
     },
-    scroll = {
-      enabled = false,
-    },
+    scroll = { enabled = false },
     styles = {
-      lazygit = {
-        border = true,
-      },
+      lazygit = { border = true },
     },
   },
 }

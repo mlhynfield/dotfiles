@@ -13,7 +13,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
+-- lazyvim plugin settings
 vim.g.ai_cmp = false
+vim.g.lazyvim_picker = "snacks"
 
 local opt = vim.opt -- for conciseness
 
