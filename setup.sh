@@ -1,8 +1,7 @@
 #!/bin/bash
 
-if ! brew --version &> /dev/null
-then
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if ! brew --version &>/dev/null; then
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
 if [ ! -d ~/dotfiles ]; then
@@ -21,3 +20,5 @@ rm -rf ~/.zshrc
 stow --adopt .
 
 ya pkg install
+
+git remote set-url origin git@github.com:mlhynfield/dotfiles.git
