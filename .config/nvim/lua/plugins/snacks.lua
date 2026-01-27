@@ -10,6 +10,9 @@ return {
     picker = {
       hidden = true,
       sources = {
+        explorer = {
+          auto_close = true,
+        },
         files = { hidden = true },
       },
     },

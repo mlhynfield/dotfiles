@@ -14,8 +14,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    { import = "lazyvim.plugins.extras.ai.copilot" },
+    { import = "lazyvim.plugins.extras.ai.copilot-chat" },
+    { import = "lazyvim.plugins.extras.editor.snacks_explorer" },
+    { import = "lazyvim.plugins.extras.ui.edgy" },
     { import = "plugins" },
-    { import = "plugins.lsp" }
+    { import = "plugins.lsp" },
   },
   defaults = {
     lazy = false,

@@ -6,6 +6,7 @@ return {
     config = function()
       require("catppuccin").setup({
         integrations = {
+          blink_cmp = true,
           copilot_vim = true,
           lsp_trouble = true,
           mason = true,
