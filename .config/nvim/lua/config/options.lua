@@ -1,18 +1,5 @@
 vim.cmd("let g:netrw_liststyle = 3")
 
--- change working directory
-local group_cdpwd = vim.api.nvim_create_augroup("group_cdpwd", { clear = true })
-vim.api.nvim_create_autocmd("VimEnter", {
-  group = group_cdpwd,
-  pattern = "*",
-  callback = function()
-    local argv = vim.fn.argv()
-    if #argv == 1 and vim.fn.isdirectory(argv[1]) == 1 then
-      vim.api.nvim_set_current_dir(argv[1])
-    end
-  end,
-})
-
 -- lazyvim plugin settings
 vim.g.ai_cmp = false
 vim.g.lazyvim_picker = "snacks"
