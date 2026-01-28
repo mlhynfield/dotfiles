@@ -4,3 +4,5 @@ font-size = 20
 font-thicken = true
 window-height = 45
 window-width = 185
+window-save-state = always
+keybind = super+r=reload_config
