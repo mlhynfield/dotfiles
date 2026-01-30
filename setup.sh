@@ -46,7 +46,6 @@ trap "popd || true" EXIT
 git submodule update --init --recursive
 
 if [[ "$SYS_UNAME" == "Darwin" ]]; then
-  brew tap Homebrew/bundle
   brew bundle install --file=macos/Brewfile
 
   rm -f ~/.zshrc

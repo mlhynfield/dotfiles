@@ -4,6 +4,7 @@ config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
 # Font
 font-family = "MesloLGS Nerd Font"
+font-thicken = true
 font-style = Regular
 font-style-italic = false
 font-style-bold-italic = false
