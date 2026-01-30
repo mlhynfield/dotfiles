@@ -27,7 +27,8 @@ function linux_install_packages() {
   esac
 }
 
-readonly SYS_UNAME=$(uname -s)
+SYS_UNAME=$(uname -s)
+readonly SYS_UNAME
 
 if [[ "$SYS_UNAME" == "Linux" ]]; then
   linux_install_packages
@@ -46,7 +47,7 @@ trap "popd || true" EXIT
 git submodule update --init --recursive
 
 if [[ "$SYS_UNAME" == "Darwin" ]]; then
-  brew bundle install --file=macos/Brewfile
+  brew bundle check --file=macos/Brewfile || brew bundle install --file=macos/Brewfile
 
   rm -f ~/.zshrc
 
@@ -57,8 +58,13 @@ if [[ -n "${linux_stow_module:-}" ]]; then
   stow --adopt "$linux_stow_module"
 fi
 
-# 1Password CLI does not allow symlinks for config directory
-stow --adopt --no-folding 1password
+readonly NO_FOLD_STOW_MODULES=(
+  1password
+  tmux
+)
+
+stow --adopt "${NO_FOLD_STOW_MODULES[@]}"
+
 chmod 700 ~/.config/op
 
 readonly STOW_MODULES=(
