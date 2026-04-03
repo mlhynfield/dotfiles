@@ -77,29 +77,83 @@ _claude_assist_widget() {
   local _ca_stty; _ca_stty=$(stty -g </dev/tty 2>/dev/null)
   stty -icanon -echo -echoctl min 1 time 0 </dev/tty 2>/dev/null
 
-  local query="" _ca_ch="" _ca_int=0
-  trap '_ca_int=1; stty "$_ca_stty" </dev/tty 2>/dev/null; printf "$_ca_dismiss"; return' INT
+  local query="" _ca_ch="" _ca_int=0 _rr=0
+  local _ca_prefix=4 _ca_rows=1 _ca_w=${COLUMNS:-80}
+  local _seq="" _sc="" _si=0 _tail="" _tc=""
+  trap 'printf "$_ca_dismiss"; stty "$_ca_stty" </dev/tty 2>/dev/null; return' INT
+
+  # Recalculate row count and redraw bottom rule if wrapping changed
+  _ca_sync_rule() {
+    local _plen=$(( _ca_prefix + ${#query} ))
+    local _nr=$(( (_plen + _ca_w - 1) / _ca_w ))
+    (( _nr < 1 )) && _nr=1
+    if (( _nr != _ca_rows )); then
+      local _ec=$(( _plen % _ca_w ))
+      (( _ec == 0 )) && _ec=$_ca_w
+      _ca_rows=$_nr
+      printf "\n"
+      _ca_rule
+      printf "\033[J\033[2A\r"
+      (( _ec > 0 )) && printf "\033[${_ec}C"
+    fi
+  }
 
   while true; do
     IFS= read -rk1 _ca_ch </dev/tty
-    local _rr=$?
+    _rr=$?
     (( _ca_int )) && break
     (( _rr != 0 )) && { _ca_int=1; break }
 
     if [[ "$_ca_ch" == $'\033' ]]; then
-      while IFS= read -rk1 -t0 _ca_ch </dev/tty 2>/dev/null; do :; done
-      _ca_int=1; break
+      # Read up to 5 bytes to identify the sequence (e.g. [200~ for paste)
+      _seq=""
+      for (( _si=0; _si<5; _si++ )); do
+        IFS= read -rk1 -t0.02 _sc </dev/tty 2>/dev/null || break
+        _seq+="$_sc"
+      done
+      if [[ "$_seq" == '[200~' ]]; then
+        # Bracketed paste — read until closing \e[201~
+        while IFS= read -rk1 _sc </dev/tty; do
+          (( _ca_int )) && break
+          if [[ "$_sc" == $'\033' ]]; then
+            _tail=""
+            for (( _si=0; _si<5; _si++ )); do
+              IFS= read -rk1 -t0.02 _tc </dev/tty 2>/dev/null || break
+              _tail+="$_tc"
+            done
+            [[ "$_tail" == '[201~' ]] && break
+          elif [[ "$_sc" > $'\x1f' ]]; then
+            query+="$_sc"
+            printf '%s' "$_sc"
+          fi
+        done
+        _ca_sync_rule
+      else
+        # ESC key or other sequence (arrows, etc.) — cancel
+        while IFS= read -rk1 -t0 _sc </dev/tty 2>/dev/null; do :; done
+        _ca_int=1; break
+      fi
+      continue
     fi
     [[ "$_ca_ch" == $'\n' || "$_ca_ch" == $'\r' ]] && break
     if [[ "$_ca_ch" == $'\x7f' || "$_ca_ch" == $'\b' ]]; then
-      [[ -n "$query" ]] && { query="${query%?}"; printf '\b \b'; }
+      if [[ -n "$query" ]]; then
+        query="${query%?}"
+        printf '\b \b'
+        _ca_sync_rule
+      fi
       continue
     fi
     # Ctrl+U — clear entire input
     if [[ "$_ca_ch" == $'\x15' ]]; then
       if [[ -n "$query" ]]; then
-        printf "\r\033[K  ${_ca_c[bold]}❯ ${_ca_c[rst]}"
         query=""
+        # Move up to the first row of input, then clear everything below
+        (( _ca_rows > 1 )) && printf "\033[$(( _ca_rows - 1 ))A"
+        printf "\r\033[J  ${_ca_c[bold]}❯ ${_ca_c[rst]}\n"
+        _ca_rule
+        printf "\033[2A\r  ${_ca_c[bold]}❯ ${_ca_c[rst]}"
+        _ca_rows=1
       fi
       continue
     fi
@@ -107,18 +161,20 @@ _claude_assist_widget() {
     [[ "$_ca_ch" < $'\x20' ]] && continue
     query+="$_ca_ch"
     printf '%s' "$_ca_ch"
+    _ca_sync_rule
   done
 
   trap - INT
-  stty "$_ca_stty" </dev/tty 2>/dev/null
 
   if (( _ca_int )) || [[ -z "$query" ]]; then
     printf "$_ca_dismiss"
+    stty "$_ca_stty" </dev/tty 2>/dev/null
     BUFFER="$saved_buffer"; CURSOR="$saved_cursor"
     zle reset-prompt; return
   fi
 
   # ── Phase 2: thinking box (full redraw) ─────────────────────────────────
+  stty "$_ca_stty" </dev/tty 2>/dev/null
   printf "$_ca_dismiss"
   printf "\n"
   _ca_rule "Claude Assist"
@@ -154,7 +210,7 @@ Current command buffer: ${saved_buffer:-<empty>}
 
 Request: ${query}"
 
-  local -a cmd=(claude -p "$user_msg" --max-turns 1 --effort "$CLAUDE_ASSIST_EFFORT")
+  local -a cmd=(claude -p "$user_msg" --tools "" --effort "$CLAUDE_ASSIST_EFFORT" --no-session-persistence)
   [[ -n "$CLAUDE_ASSIST_MODEL" ]] && cmd+=(--model "$CLAUDE_ASSIST_MODEL")
   cmd+=(--append-system-prompt "$system_prompt")
 

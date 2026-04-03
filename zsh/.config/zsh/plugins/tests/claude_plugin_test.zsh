@@ -156,6 +156,17 @@ local _kept
 _kept=$(print -r -- "$_short" | while IFS= read -r _line; do print -r -- "${_line[1,200]}"; done)
 assert_eq "short line unchanged" "$_short" "$_kept"
 
+# ── 10. Bracketed paste detection ───────────────────────────────────────────
+print "\n── Bracketed paste detection"
+_is_bracketed_paste() { [[ "$1" == '[200~'* ]]; }
+_is_paste_end()       { [[ "$1" == '[201~'* ]]; }
+assert_true  "open sequence detected"   _is_bracketed_paste '[200~'
+assert_true  "open + content detected"  _is_bracketed_paste '[200~hello'
+assert_false "close is not open"        _is_bracketed_paste '[201~'
+assert_true  "close sequence detected"  _is_paste_end       '[201~'
+assert_false "arrow key is not paste"   _is_bracketed_paste '[A'
+assert_false "empty is not paste"       _is_bracketed_paste ''
+
 # ── Summary ──────────────────────────────────────────────────────────────────
 print "\n── Results: ${_t_pass} passed, ${_t_fail} failed"
 (( _t_fail > 0 )) && exit 1
