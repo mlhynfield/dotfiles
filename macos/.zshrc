@@ -15,8 +15,9 @@ if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
 fi
 
 # custom plugins
-source $HOME/.zsh-plugins/kubectl.plugin.zsh
-source $HOME/.zsh-plugins/op.plugin.zsh
+for plugin in $HOME/.config/zsh/plugins/*.plugin.zsh; do
+  [ -f "$plugin" ] && source "$plugin"
+done
 
 # enable vi mode
 bindkey -v

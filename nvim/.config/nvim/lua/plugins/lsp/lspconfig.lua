@@ -17,6 +17,19 @@ return {
           },
         },
       },
+      helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            yamlls = {
+              enabled = true,
+              config = {
+                schemas = {},
+                validate = true,
+              },
+            },
+          },
+        },
+      },
     },
   },
 }

@@ -12,5 +12,5 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  ft = { "yaml" },
+  ft = { "yaml", "helm" },
 }
