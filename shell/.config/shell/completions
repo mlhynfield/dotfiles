@@ -1,0 +1,42 @@
+# vim: set filetype=bash :
+
+_shell_name="${ZSH_VERSION:+zsh}"
+_shell_name="${_shell_name:-bash}"
+
+if [[ "$_shell_name" == "zsh" ]]; then
+  if type brew &>/dev/null; then
+    FPATH=${HOMEBREW_PREFIX}/share/zsh-completions:$FPATH
+    curl -sLo ${HOMEBREW_PREFIX}/share/zsh-completions/_task \
+      https://raw.githubusercontent.com/go-task/task/main/completion/zsh/_task
+  fi
+
+  autoload -Uz compinit
+  compinit
+  autoload -U +X bashcompinit && bashcompinit
+
+  command -v aws_completer &>/dev/null && complete -C "$(which aws_completer)" aws
+  [[ -x "${HOMEBREW_PREFIX}/bin/mc" ]] && complete -o nospace -C "${HOMEBREW_PREFIX}/bin/mc" mc
+
+  command -v kubectl &>/dev/null && { eval "$(kubectl completion zsh)"; compdef _kubectl kubectl; }
+  command -v op &>/dev/null && { eval "$(op completion zsh)"; compdef _op op; }
+
+  if [ ! -f "${HOME}/Library/Application Support/tea/autocomplete.zsh" ]; then
+    tea shellcompletion zsh &>/dev/null
+  fi
+  PROG=tea _CLI_ZSH_AUTOCOMPLETE_HACK=1 source "${HOME}/Library/Application Support/tea/autocomplete.zsh"
+
+elif [[ "$_shell_name" == "bash" ]]; then
+  command -v aws_completer &>/dev/null && complete -C "$(which aws_completer)" aws
+  [[ -x "${HOMEBREW_PREFIX}/bin/mc" ]] && complete -o nospace -C "${HOMEBREW_PREFIX}/bin/mc" mc
+
+  command -v kubectl &>/dev/null && eval "$(kubectl completion bash)"
+  command -v op &>/dev/null && eval "$(op completion bash)"
+
+  if [[ -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  elif [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    source /usr/share/bash-completion/bash_completion
+  fi
+fi
+
+unset _shell_name

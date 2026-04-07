@@ -1,0 +1,95 @@
+# vim: set filetype=zsh :
+
+# ZSH cache directory
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+mkdir -p $ZSH_CACHE_DIR/completions
+
+# Vi mode
+bindkey -v
+export KEYTIMEOUT=25
+bindkey -M viins jk vi-cmd-mode
+bindkey "^?" backward-delete-char
+bindkey "^U" backward-kill-line
+
+# Cursor shape: beam for insert, block for normal
+autoload -Uz add-zle-hook-widget
+_cursor_shape_keymap_select() {
+  if [[ $KEYMAP == vicmd ]] || [[ $1 == block ]]; then
+    printf '\e[2 q'
+  else
+    printf '\e[5 q'
+  fi
+}
+add-zle-hook-widget zle-keymap-select _cursor_shape_keymap_select
+_cursor_shape_line_init() { printf '\e[5 q'; }
+add-zle-hook-widget zle-line-init _cursor_shape_line_init
+
+# Meta/UTF-8 settings
+setopt COMBINING_CHARS
+
+# Case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=* l:|=*'
+
+# Show all completions immediately without needing to press tab twice
+setopt MENU_COMPLETE
+setopt AUTO_MENU
+
+# History navigation
+for direction (up down) {
+  autoload $direction-line-or-beginning-search
+  zle -N $direction-line-or-beginning-search
+}
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '^[[C' forward-char
+bindkey '^[[D' backward-char
+bindkey -M vicmd j down-line-or-beginning-search
+bindkey -M vicmd k up-line-or-beginning-search
+
+# Mark symlinked directories (add trailing slash)
+setopt CHASE_LINKS
+
+# Do not autocomplete hidden files unless explicitly starting with dot
+zstyle ':completion:*' match-hidden-files off
+
+# Show all completions at once (no paging)
+zstyle ':completion:*' list-prompt ''
+zstyle ':completion:*' select-prompt ''
+
+# Show extra file information when completing (like ls -F)
+zstyle ':completion:*' file-list all
+
+# Smart completion - look at text after cursor
+setopt COMPLETE_IN_WORD
+setopt ALWAYS_TO_END
+
+# Colored completion listings
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Share history between sessions
+setopt SHARE_HISTORY
+
+# Append to history file, don't overwrite
+setopt APPEND_HISTORY
+
+# Don't record duplicate commands
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+
+# Remove superfluous blanks before recording
+setopt HIST_REDUCE_BLANKS
+
+# Don't execute immediately upon history expansion
+setopt HIST_VERIFY
+
+# Extended globbing
+setopt EXTENDED_GLOB
+
+# Don't beep on errors
+unsetopt BEEP
+
+# Allow comments in interactive shells
+setopt INTERACTIVE_COMMENTS
+
+# Change directory by typing directory name
+setopt AUTO_CD

@@ -1,0 +1,9 @@
+# vim: set filetype=bash :
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+source "$HOME/.config/shell/envs"
+source "$HOME/.config/shell/aliases"
+source "$HOME/.config/shell/functions"
+source "$HOME/.config/shell/inits"

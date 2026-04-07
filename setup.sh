@@ -60,10 +60,9 @@ fi
 
 readonly NO_FOLD_STOW_MODULES=(
   1password
-  tmux
 )
 
-stow --adopt "${NO_FOLD_STOW_MODULES[@]}"
+stow --no-folding --adopt "${NO_FOLD_STOW_MODULES[@]}"
 
 chmod 700 ~/.config/op
 

@@ -1,0 +1,12 @@
+# vim: set filetype=bash :
+
+if [ -f "/opt/homebrew/bin/brew" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif type brew &>/dev/null; then
+  eval "$(brew shellenv)"
+fi
+
+export EDITOR="nvim"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+export K9S_CONFIG_DIR="$HOME/.config/k9s"

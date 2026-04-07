@@ -1,0 +1,42 @@
+# vim: set filetype=bash :
+
+_shell_name="${ZSH_VERSION:+zsh}"
+_shell_name="${_shell_name:-bash}"
+
+if command -v mise &>/dev/null; then
+  eval "$(mise activate "$_shell_name")"
+fi
+
+if command -v starship &>/dev/null; then
+  if [[ "$_shell_name" == "bash" ]]; then
+    # clear stale readline state before rendering prompt (prevents artifacts in prompt after abnormal exits like SIGQUIT)
+    __sanitize_prompt() { printf '\r\033[K'; }
+    PROMPT_COMMAND="__sanitize_prompt${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+  fi
+  eval "$(starship init "$_shell_name")"
+fi
+
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init "$_shell_name")"
+fi
+
+if command -v try &>/dev/null; then
+  eval "$(try init ~/Work/tries)"
+fi
+
+if command -v fzf &>/dev/null; then
+  eval "$(fzf --"$_shell_name")"
+fi
+
+# Ghostty shell integration
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ] && [ -f "${GHOSTTY_RESOURCES_DIR}/shell-integration/${_shell_name}/ghostty-integration" ]; then
+  source "${GHOSTTY_RESOURCES_DIR}/shell-integration/${_shell_name}/ghostty-integration"
+fi
+
+# 1Password CLI plugins
+source ~/.config/op/plugins.sh 2>/dev/null || :
+
+# Orbstack shell integration
+source ~/.orbstack/shell/init.bash 2>/dev/null || :
+
+unset _shell_name
