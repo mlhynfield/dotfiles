@@ -6,3 +6,5 @@ source ~/.config/shell/completions
 for plugin in ~/.config/shell/plugins/*.plugin.zsh; do
   [ -f "$plugin" ] && source "$plugin"
 done
+
+source ~/.config/shell/plugins/zsh-enhancements

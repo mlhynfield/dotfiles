@@ -5,216 +5,216 @@ export KUBE_EDITOR='nvim'
 alias k=kubectl
 
 # Execute a kubectl command against all namespaces
-kall(){ k "$@" --all-namespaces }
+kall(){ kubectl "$@" --all-namespaces }
 
 # Apply/Create from a YML file
-alias kaf='k apply -f'
-alias kcf='k create -f'
+alias kaf='kubectl apply -f'
+alias kcf='kubectl create -f'
 
 # Drop into an interactive terminal on a container
-alias keti='k exec -it'
+alias keti='kubectl exec -it'
 
 # Manage configuration quickly to switch contexts.
-alias kcuc='k config use-context'
-alias kcsc='k config set-context'
-alias kcdc='k config delete-context'
-alias kccc='k config current-context'
-alias kccn='k config view --minify -o jsonpath="{...namespace}"'
-alias kccs='k config view --minify -o jsonpath="{...server}"'
-alias kcv='k config view'
-alias kcvm='k config view --minify'
+alias kcuc='kubectl config use-context'
+alias kcsc='kubectl config set-context'
+alias kcdc='kubectl config delete-context'
+alias kccc='kubectl config current-context'
+alias kccn='kubectl config view --minify -o jsonpath="{...namespace}"'
+alias kccs='kubectl config view --minify -o jsonpath="{...server}"'
+alias kcv='kubectl config view'
+alias kcvm='kubectl config view --minify'
 alias kctx='kubectx'
 
 # Update configuration tokens quickly
-kcsct(){ k config set-credentials "$1" --token "$2" }
+kcsct(){ kubectl config set-credentials "$1" --token "$2" }
 
 # List all contexts
-alias kcgc='k config get-contexts'
-alias kcgcn='k config get-contexts -o name'
+alias kcgc='kubectl config get-contexts'
+alias kcgcn='kubectl config get-contexts -o name'
 
 # General aliases
-alias kdel='k delete'
-alias kdelall='k delete --all'
-alias kdelf='k delete -f'
-alias kg='k get'
-alias kgw='k get -w'
-alias kgy='k get -o yaml'
-alias ke='k edit'
-alias kdeb='k debug'
-alias kcr='k create'
+alias kdel='kubectl delete'
+alias kdelall='kubectl delete --all'
+alias kdelf='kubectl delete -f'
+alias kg='kubectl get'
+alias kgw='kubectl get -w'
+alias kgy='kubectl get -o yaml'
+alias ke='kubectl edit'
+alias kdeb='kubectl debug'
+alias kcr='kubectl create'
 
 # Pod management.
-alias kr='k run'
-alias kgp='k get pods'
-alias kgpall='k get pods --all-namespaces'
-alias kgpg='kgp | grep'
-alias kgpw='kgp --watch'
-alias kgpwg='kgpw | grep'
-alias kgpwide='kgp -o wide'
-alias kep='k edit pods'
-alias kdp='k describe pods'
-alias kdelp='k delete pods'
+alias kr='kubectl run'
+alias kgp='kubectl get pods'
+alias kgpall='kubectl get pods --all-namespaces'
+alias kgpg='kubectl get po | grep'
+alias kgpw='kubectl get po --watch'
+alias kgpwg='kubectl get po -w | grep'
+alias kgpwide='kubectl get po -o wide'
+alias kep='kubectl edit pods'
+alias kdp='kubectl describe pods'
+alias kdelp='kubectl delete pods'
 
 # get pod by label: kgpl "app=myapp" -n myns
-alias kgpl='kgp -l'
-alias kgpwl='kgpw -l'
+alias kgpl='kubectl get po -l'
+alias kgpwl='kubectl get po -w -l'
 
 # get pod by namespace: kgpn kube-system"
-alias kgpn='kgp -n'
-alias kgpwn='kgpw -n'
+alias kgpn='kubectl get po -n'
+alias kgpwn='kubectl get po -w -n'
 
 # Service management.
-alias kgs='k get svc'
-alias kgsall='kgs --all-namespaces'
-alias kgsw='kgs --watch'
-alias kgswide='kgs -o wide'
-alias kes='k edit svc'
-alias kds='k describe svc'
-alias kdels='k delete svc'
-alias kex='k expose'
+alias kgs='kubectl get svc'
+alias kgsall='kubectl get svc --all-namespaces'
+alias kgsw='kubectl get svc --watch'
+alias kgswide='kubectl get svc -o wide'
+alias kes='kubectl edit svc'
+alias kds='kubectl describe svc'
+alias kdels='kubectl delete svc'
+alias kex='kubectl expose'
 
 # Ingress management
-alias kgi='k get ingress'
-alias kgiall='k get ingress --all-namespaces'
-alias kei='k edit ingress'
-alias kdi='k describe ingress'
-alias kdeli='k delete ingress'
-alias kcri='kcr ingress'
+alias kgi='kubectl get ingress'
+alias kgiall='kubectl get ingress --all-namespaces'
+alias kei='kubectl edit ingress'
+alias kdi='kubectl describe ingress'
+alias kdeli='kubectl delete ingress'
+alias kcri='kubectl create ingress'
 
 # Namespace management
-alias kgns='k get namespaces'
-alias kens='k edit namespace'
-alias kdns='k describe namespace'
-alias kdelns='k delete namespace'
-alias kcn='k config set-context --current --namespace'
-alias kcrns='kcr ns'
+alias kgns='kubectl get namespaces'
+alias kens='kubectl edit namespace'
+alias kdns='kubectl describe namespace'
+alias kdelns='kubectl delete namespace'
+alias kcn='kubectl config set-context --current --namespace'
+alias kcrns='kubectl create ns'
 alias kns='kubens'
 
 # ConfigMap management
-alias kgcm='k get configmaps'
-alias kgcmall='k get configmaps --all-namespaces'
-alias kecm='k edit configmap'
-alias kdcm='k describe configmap'
-alias kdelcm='k delete configmap'
-alias kcrcm='kcr cm'
+alias kgcm='kubectl get configmaps'
+alias kgcmall='kubectl get configmaps --all-namespaces'
+alias kecm='kubectl edit configmap'
+alias kdcm='kubectl describe configmap'
+alias kdelcm='kubectl delete configmap'
+alias kcrcm='kubectl create cm'
 
 # Secret management
-alias kgsec='k get secret'
-alias kgsecall='k get secret --all-namespaces'
-alias kdsec='k describe secret'
-alias kdelsec='k delete secret'
-alias kesec='k edit secret'
-alias kcrsec='kcr secret'
-kgsecv(){ k get secret "$@" -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}' }
+alias kgsec='kubectl get secret'
+alias kgsecall='kubectl get secret --all-namespaces'
+alias kdsec='kubectl describe secret'
+alias kdelsec='kubectl delete secret'
+alias kesec='kubectl edit secret'
+alias kcrsec='kubectl create secret'
+kgsecv(){ kubectl get secret "$@" -o go-template='{{range $k,$v := .data}}{{"### "}}{{$k}}{{"\n"}}{{$v|base64decode}}{{"\n\n"}}{{end}}' }
 
 # Deployment management.
-alias kgd='k get deployment'
-alias kgdall='k get deployment --all-namespaces'
-alias kgdw='kgd --watch'
-alias kgdwide='kgd -o wide'
-alias ked='k edit deployment'
-alias kdd='k describe deployment'
-alias kdeld='k delete deployment'
-alias ksd='k scale deployment'
-alias krsd='k rollout status deployment'
-alias krrd='k rollout restart deployment'
-alias kcrd='kcr deploy'
+alias kgd='kubectl get deployment'
+alias kgdall='kubectl get deployment --all-namespaces'
+alias kgdw='kubectl get deploy --watch'
+alias kgdwide='kubectl get deploy -o wide'
+alias ked='kubectl edit deployment'
+alias kdd='kubectl describe deployment'
+alias kdeld='kubectl delete deployment'
+alias ksd='kubectl scale deployment'
+alias krsd='kubectl rollout status deployment'
+alias krrd='kubectl rollout restart deployment'
+alias kcrd='kubectl create deploy'
 
 function kres(){
-  k set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
+  kubectl set env $@ REFRESHED_AT=$(date +%Y%m%d%H%M%S)
 }
 
 # Rollout management.
-alias kgrs='k get replicaset'
-alias kdrs='k describe replicaset'
-alias kers='k edit replicaset'
-alias krh='k rollout history'
-alias kru='k rollout undo'
+alias kgrs='kubectl get replicaset'
+alias kdrs='kubectl describe replicaset'
+alias kers='kubectl edit replicaset'
+alias krh='kubectl rollout history'
+alias kru='kubectl rollout undo'
 
 # Statefulset management.
-alias kgss='k get statefulset'
-alias kgssall='k get statefulset --all-namespaces'
-alias kgssw='kgss --watch'
-alias kgsswide='kgss -o wide'
-alias kess='k edit statefulset'
-alias kdss='k describe statefulset'
-alias kdelss='k delete statefulset'
-alias ksss='k scale statefulset'
-alias krsss='k rollout status statefulset'
-alias krrss='k rollout restart statefulset'
+alias kgss='kubectl get statefulset'
+alias kgssall='kubectl get statefulset --all-namespaces'
+alias kgssw='kubectl get sts --watch'
+alias kgsswide='kubectl get sts -o wide'
+alias kess='kubectl edit statefulset'
+alias kdss='kubectl describe statefulset'
+alias kdelss='kubectl delete statefulset'
+alias ksss='kubectl scale statefulset'
+alias krsss='kubectl rollout status statefulset'
+alias krrss='kubectl rollout restart statefulset'
 
 # Port forwarding
-alias kpf="k port-forward"
+alias kpf="kubectl port-forward"
 
 # Tools for accessing all information
-alias kga='k get all'
-alias kgaall='k get all --all-namespaces'
+alias kga='kubectl get all'
+alias kgaall='kubectl get all --all-namespaces'
 
 # Logs
-alias kl='k logs'
-alias kl1h='k logs --since 1h'
-alias kl1m='k logs --since 1m'
-alias kl1s='k logs --since 1s'
-alias klf='k logs -f'
-alias klf1h='k logs --since 1h -f'
-alias klf1m='k logs --since 1m -f'
-alias klf1s='k logs --since 1s -f'
+alias kl='kubectl logs'
+alias kl1h='kubectl logs --since 1h'
+alias kl1m='kubectl logs --since 1m'
+alias kl1s='kubectl logs --since 1s'
+alias klf='kubectl logs -f'
+alias klf1h='kubectl logs --since 1h -f'
+alias klf1m='kubectl logs --since 1m -f'
+alias klf1s='kubectl logs --since 1s -f'
 
 # File copy
-alias kcp='k cp'
+alias kcp='kubectl cp'
 
 # Node Management
-alias kgno='k get nodes'
-alias keno='k edit node'
-alias kdno='k describe node'
-alias kdelno='k delete node'
-alias klno='k label node'
+alias kgno='kubectl get nodes'
+alias keno='kubectl edit node'
+alias kdno='kubectl describe node'
+alias kdelno='kubectl delete node'
+alias klno='kubectl label node'
 
 # PVC management.
-alias kgpvc='k get pvc'
-alias kgpvcall='k get pvc --all-namespaces'
-alias kgpvcw='kgpvc --watch'
-alias kepvc='k edit pvc'
-alias kdpvc='k describe pvc'
-alias kdelpvc='k delete pvc'
+alias kgpvc='kubectl get pvc'
+alias kgpvcall='kubectl get pvc --all-namespaces'
+alias kgpvcw='kubectl get pvc --watch'
+alias kepvc='kubectl edit pvc'
+alias kdpvc='kubectl describe pvc'
+alias kdelpvc='kubectl delete pvc'
 
 # PV management.
-alias kgpv='k get pv'
-alias kgpvall='k get pv --all-namespaces'
-alias kgpvw='kgpv --watch'
-alias kepv='k edit pv'
-alias kdpv='k describe pv'
-alias kdelpv='k delete pv'
+alias kgpv='kubectl get pv'
+alias kgpvall='kubectl get pv --all-namespaces'
+alias kgpvw='kubectl get pv --watch'
+alias kepv='kubectl edit pv'
+alias kdpv='kubectl describe pv'
+alias kdelpv='kubectl delete pv'
 
 # Service account management.
-alias kdsa="k describe sa"
-alias kdelsa="k delete sa"
-alias kgsa="k get sa"
-alias kgsaall="k get sa --all-namespaces"
-alias kcrsa='kcr sa'
+alias kdsa="kubectl describe sa"
+alias kdelsa="kubectl delete sa"
+alias kgsa="kubectl get sa"
+alias kgsaall="kubectl get sa --all-namespaces"
+alias kcrsa='kubectl create sa'
 
 # DaemonSet management.
-alias kgds='k get daemonset'
-alias kgdsw='kgds --watch'
-alias keds='k edit daemonset'
-alias kdds='k describe daemonset'
-alias kdelds='k delete daemonset'
-alias krrds='k rollout restart daemonset'
+alias kgds='kubectl get daemonset'
+alias kgdsw='kubectl get ds --watch'
+alias keds='kubectl edit daemonset'
+alias kdds='kubectl describe daemonset'
+alias kdelds='kubectl delete daemonset'
+alias krrds='kubectl rollout restart daemonset'
 
 # CronJob management.
-alias kgcj='k get cronjob'
-alias kecj='k edit cronjob'
-alias kdcj='k describe cronjob'
-alias kdelcj='k delete cronjob'
-alias kcrcj='kcr cronjob'
+alias kgcj='kubectl get cronjob'
+alias kecj='kubectl edit cronjob'
+alias kdcj='kubectl describe cronjob'
+alias kdelcj='kubectl delete cronjob'
+alias kcrcj='kubectl create cronjob'
 
 # Job management.
-alias kgj='k get job'
-alias kej='k edit job'
-alias kdj='k describe job'
-alias kdelj='k delete job'
-alias kcrcj='kcr job'
+alias kgj='kubectl get job'
+alias kej='kubectl edit job'
+alias kdj='kubectl describe job'
+alias kdelj='kubectl delete job'
+alias kcrcj='kubectl create job'
 
 # Events monitoring.
-alias kgev='k get events --sort-by=.metadata.creationTimestamp'
-alias kgevall='k get events --sort-by=.metadata.creationTimestamp --all-namespaces'
+alias kgev='kubectl get events --sort-by=.metadata.creationTimestamp'
+alias kgevall='kubectl get events --sort-by=.metadata.creationTimestamp --all-namespaces'
