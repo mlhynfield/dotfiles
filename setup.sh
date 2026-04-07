@@ -51,7 +51,7 @@ if [[ "$SYS_UNAME" == "Darwin" ]]; then
 
   rm -f ~/.zshrc
 
-  stow --adopt macos leaderkey
+  stow --adopt macos leaderkey hammerspoon
 fi
 
 if [[ -n "${linux_stow_module:-}" ]]; then
