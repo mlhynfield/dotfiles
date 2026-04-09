@@ -20,10 +20,7 @@ if [[ "$_shell_name" == "zsh" ]]; then
   command -v kubectl &>/dev/null && { eval "$(kubectl completion zsh)"; compdef _kubectl kubectl; }
   command -v op &>/dev/null && { eval "$(op completion zsh)"; compdef _op op; }
 
-  if [ ! -f "${HOME}/Library/Application Support/tea/autocomplete.zsh" ]; then
-    tea shellcompletion zsh &>/dev/null
-  fi
-  PROG=tea _CLI_ZSH_AUTOCOMPLETE_HACK=1 source "${HOME}/Library/Application Support/tea/autocomplete.zsh"
+  command -v tea &>/dev/null && eval "$(command tea completion zsh)"
 
 elif [[ "$_shell_name" == "bash" ]]; then
   command -v aws_completer &>/dev/null && complete -C "$(which aws_completer)" aws
@@ -31,6 +28,7 @@ elif [[ "$_shell_name" == "bash" ]]; then
 
   command -v kubectl &>/dev/null && eval "$(kubectl completion bash)"
   command -v op &>/dev/null && eval "$(op completion bash)"
+  command -v tea &>/dev/null && eval "$(command tea completion bash)"
 
   if [[ -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
     source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"

@@ -81,6 +81,7 @@ brew "pam-reattach"
 brew "poppler"
 brew "postgresql@17", link: true
 brew "rancher-cli"
+brew "sevenzip"
 brew "sqlcmd"
 brew "starship"
 brew "stow"

@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
 _load_plugin() {
-  local name="$1"; shift
-  for path in "$@"; do
-    if [[ -f "$path" ]]; then
-      source "$path"
+  local name="$1" plugin_path; shift
+  for plugin_path in "$@"; do
+    if [[ -f "$plugin_path" ]]; then
+      source "$plugin_path"
       return
     fi
   done
