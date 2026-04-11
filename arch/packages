@@ -16,3 +16,5 @@ zoxide
 resvg
 imagemagick
 tea
+zsh-syntax-highlighting
+zsh-autosuggestions

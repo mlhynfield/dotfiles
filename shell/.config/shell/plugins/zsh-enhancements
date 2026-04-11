@@ -12,13 +12,11 @@ _load_plugin() {
 
 _load_plugin zsh-autosuggestions \
   "${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-  "/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
-  "${HOME}/.local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  "/usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 # Must be sourced last
 _load_plugin zsh-syntax-highlighting \
   "${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-  "/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
-  "${HOME}/.local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+  "/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 unfunction _load_plugin
