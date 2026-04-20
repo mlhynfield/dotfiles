@@ -26,3 +26,11 @@ vim.api.nvim_create_autocmd("TermEnter", {
     vim.keymap.set("t", "<c-l>", "<c-l>", { buffer = ev.buf, nowait = true })
   end,
 })
+
+-- set filetype for templated YAML files in helm charts
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*/charts/*/files/*.yaml",
+  callback = function()
+    vim.bo.filetype = "helm"
+  end,
+})

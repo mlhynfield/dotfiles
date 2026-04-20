@@ -31,10 +31,9 @@ local function cycleWindows(forward)
 	end
 	table.sort(windows, function(a, b)
 		local af, bf = a:frame(), b:frame()
-		if af.x ~= bf.x then
-			return af.x < bf.x
-		end
-		return af.y < bf.y
+		if af.x ~= bf.x then return af.x < bf.x end
+		if af.y ~= bf.y then return af.y < bf.y end
+		return a:id() < b:id()
 	end)
 	for i, w in ipairs(windows) do
 		if w:id() == win:id() then
@@ -56,3 +55,34 @@ end)
 hs.hotkey.bind({ "cmd", "alt", "shift" }, "tab", function()
 	cycleWindows(false)
 end)
+
+-- Messages: Ctrl+[1-9] → pinned conversations
+local messagesBundleID = "com.apple.MobileSMS"
+local messagesModal = hs.hotkey.modal.new()
+
+for i = 1, 9 do
+	messagesModal:bind({ "ctrl" }, tostring(i), function()
+		local app = hs.application.get(messagesBundleID)
+		if app then
+			hs.eventtap.keyStroke({ "cmd" }, tostring(i), 0, app)
+		end
+	end)
+end
+
+-- Enable the modal only while Messages is frontmost
+messagesWatcher = hs.application.watcher.new(function(_, eventType, app)
+	if eventType == hs.application.watcher.activated then
+		if app:bundleID() == messagesBundleID then
+			messagesModal:enter()
+		else
+			messagesModal:exit()
+		end
+	end
+end)
+messagesWatcher:start()
+
+-- Handle the case where Messages is already frontmost on config load
+local current = hs.application.frontmostApplication()
+if current and current:bundleID() == messagesBundleID then
+	messagesModal:enter()
+end
