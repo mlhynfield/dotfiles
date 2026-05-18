@@ -9,5 +9,6 @@ fi
 export EDITOR="nvim"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="${HOMEBREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export K9S_CONFIG_DIR="$HOME/.config/k9s"
 export BAT_THEME="Catppuccin Macchiato"
