@@ -58,6 +58,10 @@ if [[ -n "${linux_stow_module:-}" ]]; then
   stow --adopt "$linux_stow_module"
 fi
 
+if command -v omarchy &>/dev/null; then
+  stow --no-folding --adopt omarchy
+fi
+
 readonly NO_FOLD_STOW_MODULES=(
   1password
 )

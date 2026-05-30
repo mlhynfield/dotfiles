@@ -66,6 +66,11 @@ setopt ALWAYS_TO_END
 # Colored completion listings
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
+# History file and sizes (required for history to persist to disk)
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+
 # Share history between sessions
 setopt SHARE_HISTORY
 
