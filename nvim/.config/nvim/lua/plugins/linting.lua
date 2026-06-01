@@ -10,7 +10,7 @@ return {
       python = { "pylint" },
       terraform = { "tflint" },
       shell = { "shellcheck" },
-      markdown = { "markdownlint" },
+      markdown = { "markdownlint-cli2" },
     },
   },
 }
