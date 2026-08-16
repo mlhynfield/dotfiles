@@ -64,6 +64,7 @@ fi
 
 readonly NO_FOLD_STOW_MODULES=(
   1password
+  claude
 )
 
 stow --no-folding --adopt "${NO_FOLD_STOW_MODULES[@]}"
