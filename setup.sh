@@ -78,11 +78,11 @@ readonly STOW_MODULES=(
   k9s
   nvim
   scripts
+  shell
   task
   tmux
   vim
   yazi
-  zsh
 )
 
 stow --adopt "${STOW_MODULES[@]}"
