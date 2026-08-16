@@ -3,6 +3,11 @@ use = "yazi-rs/plugins:git"
 rev = "6f50636"
 hash = "270915fa8282a19908449530ff66f7e2"
 
+[[plugin.deps]]
+use = "KKV9/compress"
+rev = "e60e122"
+hash = "fbaf0adc8efc59555b748d36aab62d40"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-macchiato"
 rev = "ca61658"
