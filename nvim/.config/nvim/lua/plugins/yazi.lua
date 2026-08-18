@@ -1,6 +1,7 @@
 return {
   "mikavilpas/yazi.nvim",
   event = "VimEnter",
+  submodules = false,
   dependencies = { "folke/snacks.nvim" },
   keys = {
     -- 👇 in this section, choose your own keymappings!
