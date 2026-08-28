@@ -28,8 +28,7 @@ resvg
 imagemagick
 lazygit
 lazydocker
-task
-tea
+tailscale
 1password-cli
 zsh-syntax-highlighting
 zsh-autosuggestions
