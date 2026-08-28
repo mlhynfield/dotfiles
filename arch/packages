@@ -4,13 +4,13 @@ git
 neovim
 vim
 ghostty
+foot
 mise
 starship
 eza
 bat
 kubectl
 kubectx
-kubens
 helm
 k9s
 krew
