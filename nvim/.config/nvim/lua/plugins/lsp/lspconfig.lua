@@ -17,6 +17,17 @@ return {
           },
         },
       },
+      nil_ls = {
+        settings = {
+          ["nil"] = {
+            nix = {
+              flake = {
+                autoArchive = false,
+              },
+            },
+          },
+        },
+      },
       helm_ls = {
         settings = {
           ["helm-ls"] = {
