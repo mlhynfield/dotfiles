@@ -27,3 +27,4 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
+o.window({ class = "^(steam_app_[0-9]+|com\\.mojang\\.minecraft)$", fullscreen = true }, { confine_pointer = true })

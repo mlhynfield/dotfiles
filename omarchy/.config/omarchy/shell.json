@@ -20,6 +20,9 @@
         },
         {
           "id": "omarchy.system-update"
+        },
+        {
+          "id": "omarchy.tray"
         }
       ],
       "left": [
@@ -41,7 +44,10 @@
           "onMiddleClick": "clipthat save"
         },
         {
-          "id": "omarchy.tray"
+          "id": "mhynfield.mumble"
+        },
+        {
+          "id": "ussego.otoru"
         },
         {
           "id": "omarchy.tailscale"
@@ -67,7 +73,7 @@
       ]
     },
     "position": "top",
-    "transparent": false
+    "transparent": true
   },
   "idle": {
     "lock": 300,
