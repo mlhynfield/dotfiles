@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 readonly DOTFILES="$HOME/dotfiles"
@@ -10,8 +10,8 @@ readonly BASHRC_MARKER="managed by dotfiles/setup.sh: launch zsh from interactiv
 readonly PACKAGE_LIST="arch/packages"
 readonly BREWFILE="macos/Brewfile"
 
-readonly MODULES=(ghostty git github k9s nvim scripts shell task tmux vim yazi)
-readonly MODULES_NO_FOLD=(1password claude)
+readonly MODULES=(ghostty git github k9s nvim shell task tmux vim yazi)
+readonly MODULES_NO_FOLD=(scripts 1password claude)
 readonly MODULES_LINUX=(arch foot)
 readonly MODULES_MACOS=(macos leaderkey hammerspoon)
 readonly MODULES_OMARCHY_NO_FOLD=(omarchy)
@@ -186,6 +186,27 @@ stow_unfolded() {
   fi
 }
 
+macos_settings() {
+  osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to true'
+
+  defaults write com.apple.dock orientation -string "right"
+  defaults write com.apple.dock autohide -bool true
+  defaults write com.apple.dock tilesize -int 43
+  defaults write com.apple.dock mru-spaces -bool false
+
+  defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+
+  defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
+
+  defaults write NSGlobalDomain KeyRepeat -int 2
+  defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+  killall Dock
+  killall ControlCenter
+
+  defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
+}
+
 if [[ ! -d $DOTFILES ]]; then
   git clone "$ORIGIN_HTTPS" "$DOTFILES"
 fi
@@ -208,6 +229,7 @@ Darwin)
   install_macos_packages
   rm -f ~/.zshrc
   stow_folded "${MODULES_MACOS[@]}"
+  macos_settings
   ;;
 *)
   die "$(uname -s) is not a supported operating system"
