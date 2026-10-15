@@ -72,7 +72,16 @@ function M.setup()
     end
   end
 
+  local has_pbpaste = vim.fn.has("mac") == 1 and vim.fn.executable("pbpaste") == 1
+
   local function paste(register)
+    if has_pbpaste then
+      return function()
+        local lines = vim.fn.systemlist({ "pbpaste" }, "", 1)
+        return vim.v.shell_error == 0 and lines or {}
+      end
+    end
+
     if not has_wayland then
       return osc52.paste(register)
     end
