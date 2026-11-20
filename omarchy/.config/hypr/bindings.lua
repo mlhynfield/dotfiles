@@ -13,7 +13,7 @@ hl.unbind("SUPER + SHIFT + S")
 o.bind(
   "SUPER + SHIFT + S",
   "Steam (gamescope)",
-  "[workspace 5] gamescope -W 2560 -H 1440 -r 165 --steam --force-grab-cursor -f -- steam -gamepadui"
+  "[workspace 5] gamescope --steam --force-grab-cursor -f -- steam -gamepadui"
 )
 
 -- 1Password quick access.
